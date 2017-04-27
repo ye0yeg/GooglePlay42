@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">GooglePlay4</string>
+    <!--MainPager-->
+    <string-array name="main_titles">
+        <item>MAIN</item>
+        <item>APP</item>
+        <item>GAME</item>
+        <item>TOPIC</item>
+        <item>COMMD</item>
+        <item>KIND</item>
+        <item>LIST</item>
+    </string-array>
+</resources>
+
+
