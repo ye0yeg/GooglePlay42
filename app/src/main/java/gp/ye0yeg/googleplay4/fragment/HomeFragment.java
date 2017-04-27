@@ -1,6 +1,10 @@
 package gp.ye0yeg.googleplay4.fragment;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import gp.ye0yeg.googleplay4.base.BaseFragment;
@@ -14,20 +18,7 @@ public class HomeFragment extends BaseFragment {
 
 
     @Override
-    public View initView() {
-        tv = new TextView(UIUtils.getContext());
-        tv.setText(this.getClass().getSimpleName());
-        return tv;
-    }
-
-    @Override
-    protected void initData() {
-        tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        super.initData();
+    public int initData() {
+        return 0;
     }
 }
