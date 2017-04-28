@@ -1,7 +1,6 @@
 package gp.ye0yeg.googleplay4.base;
 
 import android.content.Context;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -72,13 +71,14 @@ public abstract class LoadingPager extends FrameLayout {
 
         if(successView == null && curState == STATE_SUCCESS){
             successView = initSuccessView();
+             this.addView(successView);
         }
     }
 
 
 
     /*
-    * @des 触发加载数据
+    * des 触发加载数据
     * @call 暴露给外界调用, 外界触发加载数据
     * */
     public void loadData() {
@@ -89,12 +89,18 @@ public abstract class LoadingPager extends FrameLayout {
         @Override
         public void run() {
             //真正加载数据
-            int tempState = initData();
+            lodedResult tempState = initData();
             //加载完成以后获得结果
-            curState = tempState;
-            //刷新UI
-            refreshUI();
-            //异步加载数据
+            curState = tempState.getState();
+            //刷新UI,因为刷新UI没有在主线程中，所以放到安全线程访问方法中，到主线程运行
+            UIUtils.postTaskSafely(new Runnable() {
+                @Override
+                public void run() {
+                    refreshUI();
+                    //异步加载数据
+                }
+            });
+
 
         }
     }
@@ -103,7 +109,7 @@ public abstract class LoadingPager extends FrameLayout {
     * @des 必须实现， 但是不知道具体实现，定义为抽象方法让子类实现，真正加载数据
     * @call loadData()被调用的时候
     * */
-   protected abstract int initData();
+   protected abstract lodedResult initData();
 
 
     /*
@@ -113,4 +119,14 @@ public abstract class LoadingPager extends FrameLayout {
     * */
     public abstract View initSuccessView();
 
+    public enum lodedResult{
+        SUCCESS(STATE_SUCCESS),ERROR(STATE_ERROR),EMPTY(STATE_EMPTY);
+        int state;
+        public int getState(){
+            return state;
+        }
+        private lodedResult(int state){
+            this.state = state;
+        }
+    }
 }
