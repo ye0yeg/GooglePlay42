@@ -60,11 +60,10 @@ public class FragmentFactory {
                 break;
             default:
                 break;
-
         }
         //保存对应的缓存
         cachesFragmentMap.put(position, fragment);
         return fragment;
     }
-
+    //我居然渴望他们爱我，我真可怜。——提利昂·兰尼斯特
 }

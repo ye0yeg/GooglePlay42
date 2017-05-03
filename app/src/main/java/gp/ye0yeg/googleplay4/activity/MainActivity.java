@@ -128,9 +128,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return 0;
         }
-    }
-
-    ;
+    };
 
     private class MainFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
         public MainFragmentStatePagerAdapter(FragmentManager fm) {
@@ -156,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
             }
             return 0;
         }
-    }
-
-    ;
+    };
 }
+//It eventruelly #:$^ ,

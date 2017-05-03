@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Random;
+
 import gp.ye0yeg.googleplay4.base.BaseFragment;
 import gp.ye0yeg.googleplay4.base.LoadingPager;
 import gp.ye0yeg.googleplay4.utils.UIUtils;
@@ -26,7 +28,10 @@ public class HomeFragment extends BaseFragment {
     @Override
     public LoadingPager.lodedResult initData() {
         SystemClock.sleep(1000);
-        return LoadingPager.lodedResult.SUCCESS;
+        LoadingPager.lodedResult[] arr = {LoadingPager.lodedResult.SUCCESS, LoadingPager.lodedResult.EMPTY, LoadingPager.lodedResult.ERROR};
+        Random random = new Random();
+        int index = random.nextInt(arr.length);
+        return arr[index];
     }
 
     @Override

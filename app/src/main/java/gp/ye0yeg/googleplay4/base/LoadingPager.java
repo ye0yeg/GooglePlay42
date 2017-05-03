@@ -16,7 +16,7 @@ public abstract class LoadingPager extends FrameLayout {
     1. 加载页面
     2. 错误页面
     3. 空页面
-    4. 成功s页面
+    4. 成功页面
 */
     public static final int STATE_LOADING = 0; //加载状态
     public static final int STATE_EMPTY = 1; //空状态
@@ -47,7 +47,6 @@ public abstract class LoadingPager extends FrameLayout {
         //3. 空白
         emptyView = View.inflate(UIUtils.getContext(), R.layout.pager_empty, null);
         this.addView(emptyView);
-
         refreshUI();
 
     }
@@ -64,18 +63,18 @@ public abstract class LoadingPager extends FrameLayout {
             loadingView.setVisibility(View.GONE);
         }
         */
-        //该句同等于上面代码块，为三元运算符
+        //该句同等于上面代码块，为三元运算符, 仕途显示隐藏
         loadingView.setVisibility((curState == STATE_LOADING) ? 0 : 8);
         emptyView.setVisibility((curState == STATE_EMPTY) ? 0 : 8);
         errorView.setVisibility((curState == STATE_ERROR) ? 0 : 8);
-
-        if(successView == null && curState == STATE_SUCCESS){
+        if (successView == null && curState == STATE_SUCCESS) {
             successView = initSuccessView();
-             this.addView(successView);
+            this.addView(successView);
+        }
+        if (successView != null) {
+            successView.setVisibility((curState == STATE_LOADING) ? 0 : 8);
         }
     }
-
-
 
     /*
     * des 触发加载数据
@@ -100,8 +99,6 @@ public abstract class LoadingPager extends FrameLayout {
                     //异步加载数据
                 }
             });
-
-
         }
     }
 
@@ -109,7 +106,8 @@ public abstract class LoadingPager extends FrameLayout {
     * @des 必须实现， 但是不知道具体实现，定义为抽象方法让子类实现，真正加载数据
     * @call loadData()被调用的时候
     * */
-   protected abstract lodedResult initData();
+    protected abstract lodedResult initData();
+
 
 
     /*
@@ -119,13 +117,15 @@ public abstract class LoadingPager extends FrameLayout {
     * */
     public abstract View initSuccessView();
 
-    public enum lodedResult{
-        SUCCESS(STATE_SUCCESS),ERROR(STATE_ERROR),EMPTY(STATE_EMPTY);
+    public enum lodedResult {
+        SUCCESS(STATE_SUCCESS), ERROR(STATE_ERROR), EMPTY(STATE_EMPTY);
         int state;
-        public int getState(){
+
+        public int getState() {
             return state;
         }
-        private lodedResult(int state){
+
+        private lodedResult(int state) {
             this.state = state;
         }
     }

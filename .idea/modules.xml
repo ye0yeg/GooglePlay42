@@ -3,9 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GooglePlay42.iml" filepath="$PROJECT_DIR$/GooglePlay42.iml" />
-      <module fileurl="file://$PROJECT_DIR$/GooglePlay42.iml" filepath="$PROJECT_DIR$/GooglePlay42.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/threadpooldemo/threadpooldemo.iml" filepath="$PROJECT_DIR$/threadpooldemo/threadpooldemo.iml" />
     </modules>
   </component>
 </project>

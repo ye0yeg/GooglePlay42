@@ -29,8 +29,6 @@ public abstract class BaseFragment extends Fragment {
         return loadingPager;
     }
 
-
-
     /*
     * @des 必须实现， 但是不知道具体实现，定义为抽象方法让子类实现，真正加载数据,是loaddingpage的同名方法
     * @call loadData()被调用的时候
