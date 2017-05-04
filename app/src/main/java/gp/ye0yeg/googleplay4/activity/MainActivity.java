@@ -18,7 +18,7 @@ import com.astuetz.PagerSlidingTabStrip;
 
 import gp.ye0yeg.googleplay4.R;
 import gp.ye0yeg.googleplay4.base.BaseApplication;
-import gp.ye0yeg.googleplay4.fragmentFactory.FragmentFactory;
+import gp.ye0yeg.googleplay4.factory.FragmentFactory;
 import gp.ye0yeg.googleplay4.utils.LogUtils;
 import gp.ye0yeg.googleplay4.utils.UIUtils;
 

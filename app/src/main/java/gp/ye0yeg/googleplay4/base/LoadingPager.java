@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import gp.ye0yeg.googleplay4.R;
+import gp.ye0yeg.googleplay4.factory.ThreadPoolFactory;
 import gp.ye0yeg.googleplay4.utils.UIUtils;
 
 /**
@@ -72,17 +73,19 @@ public abstract class LoadingPager extends FrameLayout {
             this.addView(successView);
         }
         if (successView != null) {
-            successView.setVisibility((curState == STATE_LOADING) ? 0 : 8);
+//            successView.setVisibility((curState == STATE_LOADING) ? 0 : 8);
         }
     }
 
     /*
     * des 触发加载数据
     * @call 暴露给外界调用, 外界触发加载数据
+    *
     * */
     public void loadData() {
-        new Thread(new LoadDataTask()).start();
-    }
+        ThreadPoolFactory.getNormalPool().execute(new LoadDataTask());
+      }
+
 
     private class LoadDataTask implements Runnable {
         @Override

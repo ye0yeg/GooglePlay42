@@ -1,4 +1,4 @@
-package gp.ye0yeg.googleplay4.fragmentFactory;
+package gp.ye0yeg.googleplay4.factory;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.util.SparseArrayCompat;

@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 创建线程池，执行任务，提交任务
+ * 使用单例模型，有且只有一个对象
  * Created by Administrator on 5/3/2017.
  */
 
@@ -41,15 +42,31 @@ public class ThreadPoolProxy {
         this.keepAliveTime = keepAliveTime;
     }
 
+    /**
+     * 单例模式,双重检查枷锁，第一次初始化实体的时候才启动同步机制,提高性能
+     * public static Singleton getInstance(){
+     * if(instance ==null){
+     * synchronized(Singleton.class){
+     * if(instance ==null){
+     * instance = new Singleton();
+     * }
+     * }
+     * }
+     * return instance;
+     * <p>
+     * }
+     * 以下使用双重检查加锁
+     */
     private ThreadPoolExecutor initThreadPoolExecutor() {
         if (executor == null) {
-            TimeUnit unit = TimeUnit.MICROSECONDS;
-            BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();//无界队列
-            ThreadFactory threadFactory = Executors.defaultThreadFactory();//默认的线程工厂
-            RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();
-            executor = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
-//            return executor;
-        };
+            synchronized (ThreadPoolExecutor.class) {
+                TimeUnit unit = TimeUnit.MICROSECONDS;
+                BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();//无界队列
+                ThreadFactory threadFactory = Executors.defaultThreadFactory();//默认的线程工厂
+                RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();
+                executor = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
+            }
+        }
         return executor;
     }
 
