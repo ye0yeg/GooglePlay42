@@ -10,9 +10,7 @@ import gp.ye0yeg.googleplay4.utils.UIUtils;
 /**
  * Created by Administrator on 5/4/2017.
  */
-
 public class HomeHolder extends BaseHolder<String> {
-    public View holderView;
     public TextView tv_tmp1;
     public TextView tv_tmp2;
 
@@ -24,8 +22,9 @@ public class HomeHolder extends BaseHolder<String> {
         return view;
     }
 
+    @Override
     public void refreshHolderView(String data) {
-        tv_tmp1.setText("Head" + data);
-        tv_tmp2.setText("Tail" + data);
+        tv_tmp1.setText("Head" + data); //  debug : null
+        tv_tmp2.setText("Tail" + data); // debug : null
     }
 }

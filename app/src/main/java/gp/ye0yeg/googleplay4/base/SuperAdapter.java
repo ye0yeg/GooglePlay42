@@ -1,5 +1,7 @@
 package gp.ye0yeg.googleplay4.base;
 
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
@@ -34,4 +36,26 @@ public abstract class SuperAdapter<ITEMBEANTYPE> extends BaseAdapter{
     public long getItemId(int position) {
         return position;
     }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        BaseHolder<ITEMBEANTYPE> holder = null;
+        if (convertView == null) {
+            holder = getSpecialHolder();
+        } else {
+            holder = (BaseHolder) convertView.getTag();
+        }
+        //设置数据
+        holder.setDataAndRefreshHolderView(dataSource.get(position));
+        //刷新数据
+        return holder.holderView;
+    }
+    /*
+    * @des 返回具体Baseholder的子类
+    * @call getView方法中没有converView的时候被创建
+    * */
+    public abstract BaseHolder<ITEMBEANTYPE> getSpecialHolder();
 }
+
+
+

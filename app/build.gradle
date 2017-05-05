@@ -20,11 +20,17 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    dependencies { compile 'com.astuetz:pagerslidingtabstrip:1.0.1' }
-//    androidTestCompile('com.android.support.test.espresso:espresso-corwe:2.2.2', {
-//        exclude group: 'com.android.support', module: 'support-annotations'
-//    })
+    compile 'org.xutils:xutils:3.5.0'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    dependencies {
+
+        compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    }
+    //    androidTestCompile('com.android.support.test.espresso:espresso-corwe:2.2.2', {
+    //        exclude group: 'com.android.support', module: 'support-annotations'
+    //    })
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
+    compile 'org.xutils:xutils:3.5.0'
+    compile 'com.google.code.gson:gson:2.8.0'
 }

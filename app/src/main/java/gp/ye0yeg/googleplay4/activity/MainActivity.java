@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -27,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private PagerSlidingTabStrip tabs;
     private String[] mainTitle;
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +39,19 @@ public class MainActivity extends AppCompatActivity {
         initView();
         initData();
         initToolBar();
+        initToolBarToggle();
     }
+
+    private void initToolBarToggle() {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
+                drawerLayout,
+                toolbar,
+                R.string.open,
+                R.string.close);
+        //同步状态
+        toggle.syncState();
+    }
+
 
     private void initData() {
 //        MainFragmentPagerAdapter adapter = new MainFragmentPagerAdapter(getSupportFragmentManager());
@@ -51,11 +67,12 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         viewPager = (ViewPager) findViewById(R.id.main_viewpager);
         tabs = (PagerSlidingTabStrip) findViewById(R.id.main_tabs);
+        drawerLayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
 
     }
 
     private void initToolBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
         toolbar.setTitle("GooglePlay");
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.drawable.ic_launcher);
@@ -128,7 +145,9 @@ public class MainActivity extends AppCompatActivity {
             }
             return 0;
         }
-    };
+    }
+
+    ;
 
     private class MainFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
         public MainFragmentStatePagerAdapter(FragmentManager fm) {
@@ -154,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
             }
             return 0;
         }
-    };
+    }
+
+    ;
 }
 //It eventruelly #:$^ ,

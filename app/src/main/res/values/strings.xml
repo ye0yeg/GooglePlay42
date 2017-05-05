@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">GooglePlay4</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
     <!--MainPager-->
     <string-array name="main_titles">
         <item>MAIN</item>

@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
 
+import org.xutils.x;
+
 /**
  * Created by Administrator on 4/26/2017.
  */
@@ -45,7 +47,8 @@ public class BaseApplication extends Application {
         mainThread = Thread.currentThread();
         mainThredId = Process.myTid();
         mainLooper = getMainLooper();
-
+        x.Ext.init(this);
+//        x.Ext.setDebug(BuildConfig.DEBUG); // 是否输出debug日志, 开启debug会影响性能.
         handler = new Handler();
 
         super.onCreate();
