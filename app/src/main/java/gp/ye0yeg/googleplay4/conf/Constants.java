@@ -12,6 +12,7 @@ public class Constants {
 //    public static final String BASEURL = "https://10.0.2.2:8080/GooglePlayServer/";
     public static final class URLS {
         public static final String BASEURL = "http://192.168.4.100:8080/GooglePlayServer/";
+        public static final String IMAGEBASEURL = BASEURL + "image?name=" ;
     }
 
 }

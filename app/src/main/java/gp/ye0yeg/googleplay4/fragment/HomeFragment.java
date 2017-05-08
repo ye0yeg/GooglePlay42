@@ -24,6 +24,7 @@ import gp.ye0yeg.googleplay4.base.BaseFragment;
 import gp.ye0yeg.googleplay4.base.BaseHolder;
 import gp.ye0yeg.googleplay4.base.LoadingPager;
 import gp.ye0yeg.googleplay4.base.SuperAdapter;
+import gp.ye0yeg.googleplay4.bean.AppInfoBean;
 import gp.ye0yeg.googleplay4.bean.HomeBean;
 import gp.ye0yeg.googleplay4.conf.Constants;
 import gp.ye0yeg.googleplay4.holder.HomeHolder;
@@ -35,7 +36,8 @@ import gp.ye0yeg.googleplay4.utils.UIUtils;
  */
 public class HomeFragment extends BaseFragment {
     private TextView tv;
-    private List<String> datas;
+    private List<AppInfoBean> datas;  //ListView的数据源
+    private List<String>  picture; //轮播图
     private  int state = 0;
 
     @Override
@@ -46,10 +48,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public LoadingPager.lodedResult initData() {
 //        state =0;
-        datas = new ArrayList<String>();
-        for (int i = 0; i < 100; i++) {
-            datas.add(i + "");
-        }
+        datas = new ArrayList<AppInfoBean>();
         SystemClock.sleep(100);
         //"http://192.168.1.100:8080/GooglePlayServer/";
         RequestParams params = new RequestParams(Constants.URLS.BASEURL+"home" );
@@ -60,9 +59,12 @@ public class HomeFragment extends BaseFragment {
             public void onSuccess(String result) {
                 Gson gson= new Gson();
                 HomeBean homeBean = gson.fromJson(result,HomeBean.class);
+                datas = homeBean.list;
+                picture = homeBean.picture;
 
                 Toast.makeText(x.app(), "成功的提示" + result, Toast.LENGTH_LONG).show();
                 LogUtils.s("SUCCESS");
+
                 state = 0;
             }
             @Override
@@ -93,7 +95,6 @@ public class HomeFragment extends BaseFragment {
         }else {
             return LoadingPager.lodedResult.EMPTY;
         }
-
     }
 
 
@@ -107,14 +108,15 @@ public class HomeFragment extends BaseFragment {
     }
 
 
-    class HomeAdapter extends SuperAdapter<String> {
+    class HomeAdapter extends SuperAdapter<AppInfoBean> {
 
-        public HomeAdapter(List<String> dataSource) {
+        public HomeAdapter(List<AppInfoBean> dataSource) {
             super(dataSource);
+
         }
 
         @Override
-        public BaseHolder<String> getSpecialHolder() {
+        public BaseHolder<AppInfoBean> getSpecialHolder() {
             return new HomeHolder();
         }
     }
