@@ -6,22 +6,30 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import gp.ye0yeg.googleplay4.base.LoadingPager.lodedResult;
+import gp.ye0yeg.googleplay4.utils.LogUtils;
+import gp.ye0yeg.googleplay4.utils.UIUtils;
 
 /**
  * Created by ye0ye on 2017/4/27.
  */
 
 public abstract class BaseFragment extends Fragment {
+
+    private LoadingPager loadingPager;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        LoadingPager loadingPager = new LoadingPager(BaseApplication.getContext()) {
+        loadingPager = new LoadingPager(UIUtils.getContext()) {
             @Override
             protected lodedResult initData() {
+                LogUtils.s("调用:lodedResult initData() ");
                 return BaseFragment.this.initData();
             }
 
             @Override
             public View initSuccessView() {
+                LogUtils.s("调用:initSuccessView() ");
                 return BaseFragment.this.initSuccessView();
             }
         };
@@ -33,7 +41,7 @@ public abstract class BaseFragment extends Fragment {
     * @des 必须实现， 但是不知道具体实现，定义为抽象方法让子类实现，真正加载数据,是loaddingpage的同名方法
     * @call loadData()被调用的时候
     * */
-    public abstract LoadingPager.lodedResult initData();
+    public abstract lodedResult initData();
 
     /*
     *@des 返回成功的视图

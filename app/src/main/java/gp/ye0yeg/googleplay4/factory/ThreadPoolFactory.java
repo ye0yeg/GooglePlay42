@@ -15,7 +15,7 @@ public class ThreadPoolFactory {
         if(normalPool == null){
             synchronized (ThreadPoolProxy.class){
                 if(normalPool == null){
-                    normalPool = new ThreadPoolProxy(5,5 ,3000);
+                    normalPool = new ThreadPoolProxy(5,10 ,3000);
                 }
             }
         }

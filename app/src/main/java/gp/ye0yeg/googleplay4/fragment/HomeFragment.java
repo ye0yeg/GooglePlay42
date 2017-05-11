@@ -23,6 +23,7 @@ import java.util.List;
 import gp.ye0yeg.googleplay4.base.BaseFragment;
 import gp.ye0yeg.googleplay4.base.BaseHolder;
 import gp.ye0yeg.googleplay4.base.LoadingPager;
+import gp.ye0yeg.googleplay4.base.LoadingPager.lodedResult;
 import gp.ye0yeg.googleplay4.base.SuperAdapter;
 import gp.ye0yeg.googleplay4.bean.AppInfoBean;
 import gp.ye0yeg.googleplay4.bean.HomeBean;
@@ -37,8 +38,9 @@ import gp.ye0yeg.googleplay4.utils.UIUtils;
 public class HomeFragment extends BaseFragment {
     private TextView tv;
     private List<AppInfoBean> datas;  //ListView的数据源
-    private List<String>  picture; //轮播图
-    private  int state = 0;
+    private List<String> picture; //轮播图
+    private int state = 0;
+    private HomeAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,27 +48,30 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
-    public LoadingPager.lodedResult initData() {
+    public lodedResult initData() {
 //        state =0;
         datas = new ArrayList<AppInfoBean>();
-        SystemClock.sleep(100);
+//        SystemClock.sleep(100);
         //"http://192.168.1.100:8080/GooglePlayServer/";
-        RequestParams params = new RequestParams(Constants.URLS.BASEURL+"home" );
+        RequestParams params = new RequestParams(Constants.URLS.BASEURL + "home");
 //        params.setSslSocketFactory(...); // 设置ssl
         params.addQueryStringParameter("index", "0");
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Gson gson= new Gson();
-                HomeBean homeBean = gson.fromJson(result,HomeBean.class);
+                Gson gson = new Gson();
+                HomeBean homeBean = gson.fromJson(result, HomeBean.class);
                 datas = homeBean.list;
+                LogUtils.s("数据初始化以后的dataSize：" + datas.size()
+                );
                 picture = homeBean.picture;
 
-                Toast.makeText(x.app(), "成功的提示" + result, Toast.LENGTH_LONG).show();
-                LogUtils.s("SUCCESS");
-
+                Toast.makeText(x.app(), "成功的提示", Toast.LENGTH_LONG).show();
+                LogUtils.s(datas.get(1).name);//可以获得数据
+                mAdapter.notifyDataSetChanged();
                 state = 0;
             }
+
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Toast.makeText(x.app(), ex.getMessage() + "\r\n 错误", Toast.LENGTH_LONG).show();
@@ -87,23 +92,28 @@ public class HomeFragment extends BaseFragment {
 
             }
         });
+        return LoadingPager.lodedResult.SUCCESS;
 
-        if(state == 0){
-            return LoadingPager.lodedResult.SUCCESS;
-        }else if(state ==1){
-            return LoadingPager.lodedResult.EMPTY;
-        }else {
-            return LoadingPager.lodedResult.EMPTY;
-        }
+//        if (state == 0) {
+//            return LoadingPager.lodedResult.SUCCESS;
+//        } else if (state == 1) {
+//            return LoadingPager.lodedResult.EMPTY;
+//        } else {
+//            return LoadingPager.lodedResult.EMPTY;
+//        }
     }
 
 
     @Override
     public View initSuccessView() {
+        SystemClock.sleep(1000);
+        mAdapter = new HomeAdapter(datas);
         ListView listView = new ListView(UIUtils.getContext());
         listView.setCacheColorHint(Color.YELLOW);
         listView.setFastScrollEnabled(true);
-        listView.setAdapter(new HomeAdapter(datas));
+        //目前遇到的问题是，数据从这里取出以后，无法传入adapter中，导致无数据
+        LogUtils.s("主界面的data：" + datas.size());
+        listView.setAdapter(mAdapter);
         return listView;
     }
 
@@ -112,7 +122,7 @@ public class HomeFragment extends BaseFragment {
 
         public HomeAdapter(List<AppInfoBean> dataSource) {
             super(dataSource);
-
+            LogUtils.s("调用了HomeAdapter构造函数");
         }
 
         @Override
@@ -120,4 +130,5 @@ public class HomeFragment extends BaseFragment {
             return new HomeHolder();
         }
     }
+
 }

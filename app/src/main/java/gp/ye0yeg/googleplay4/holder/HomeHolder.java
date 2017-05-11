@@ -30,23 +30,24 @@ public class HomeHolder extends BaseHolder<AppInfoBean> {
     @ViewInject(R.id.item_appinfo_tv_title)
     TextView tv_title;
 
-
     //HolderView
     @Override
     public View initHolderView() {
-        View view =View.inflate(UIUtils.getContext(), R.layout.item_app_info,null);
+        View view = View.inflate(UIUtils.getContext(), R.layout.item_app_info, null);
         //注入
-        x.view().inject(this,view);
+
+        x.view().inject(this, view);
         return view;
     }
+
     @Override
     public void refreshHolderView(AppInfoBean data) {
-        tv_size.setText(data.size+"");
+        tv_size.setText(data.size + "");
         tv_des.setText(data.des);
         tv_title.setText(data.name);
         iv_icon.setImageResource(R.drawable.ic_default); //默认图片
-        String uri = Constants.URLS.IMAGEBASEURL+data.iconUrl;
-        x.image().bind(iv_icon,uri);
-
+        String uri = Constants.URLS.IMAGEBASEURL + data.iconUrl;
+        x.image().bind(iv_icon, uri);
+        rb_stars.setRating(data.stars);
     }
 }

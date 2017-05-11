@@ -10,7 +10,7 @@ public abstract class BaseHolder<HOLDERBEANTYPE> {
 
     public View holderView;
     //Holder
-    public HOLDERBEANTYPE mdata;
+    public HOLDERBEANTYPE mData;
 
     public BaseHolder() {
         holderView = initHolderView();
@@ -24,7 +24,7 @@ public abstract class BaseHolder<HOLDERBEANTYPE> {
      */
     public void setDataAndRefreshHolderView(HOLDERBEANTYPE data) {
         //设置数据
-        mdata = data; //null
+        mData = data; //null
 
         //刷新界面
         refreshHolderView(data); //null

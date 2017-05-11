@@ -30,71 +30,56 @@ import java.util.concurrent.TimeUnit;
  * handler： 线程池对拒绝任务的处理策略
  */
 public class ThreadPoolProxy {
-    ThreadPoolExecutor executor;
-    int corePoolSize;
-    int maximumPoolSize;
-    long keepAliveTime;
+    ThreadPoolExecutor	mExecutor;			// 只需创建一次
+    int					mCorePoolSize;
+    int					mMaximumPoolSize;
+    long				mKeepAliveTime;
 
-    //构造外部方法让他注入
     public ThreadPoolProxy(int corePoolSize, int maximumPoolSize, long keepAliveTime) {
-        this.corePoolSize = corePoolSize;
-        this.maximumPoolSize = maximumPoolSize;
-        this.keepAliveTime = keepAliveTime;
+        super();
+        mCorePoolSize = corePoolSize;
+        mMaximumPoolSize = maximumPoolSize;
+        mKeepAliveTime = keepAliveTime;
     }
 
-    /**
-     * 单例模式,双重检查枷锁，第一次初始化实体的时候才启动同步机制,提高性能
-     * public static Singleton getInstance(){
-     * if(instance ==null){
-     * synchronized(Singleton.class){
-     * if(instance ==null){
-     * instance = new Singleton();
-     * }
-     * }
-     * }
-     * return instance;
-     * <p>
-     * }
-     * 以下使用双重检查加锁
-     */
-    private ThreadPoolExecutor initThreadPoolExecutor() {
-        if (executor == null) {
-            synchronized (ThreadPoolExecutor.class) {
-                TimeUnit unit = TimeUnit.MICROSECONDS;
-                BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();//无界队列
-                ThreadFactory threadFactory = Executors.defaultThreadFactory();//默认的线程工厂
-                RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();
-                executor = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
+    private ThreadPoolExecutor initThreadPoolExecutor() {//双重检查加锁
+        if (mExecutor == null) {
+            synchronized (ThreadPoolProxy.class) {
+                if (mExecutor == null) {
+                    TimeUnit unit = TimeUnit.MILLISECONDS;
+                    BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<Runnable>();// 无界队列
+                    ThreadFactory threadFactory = Executors.defaultThreadFactory();
+                    RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();// 丢弃任务并抛出RejectedExecutionException异常。
+                    mExecutor = new ThreadPoolExecutor(//
+                            mCorePoolSize,// 核心的线程数
+                            mMaximumPoolSize,// 最大的线程数
+                            mKeepAliveTime, // 保持时间
+                            unit, // 保持时间对应的单位
+                            workQueue,// 缓存队列/阻塞队列
+                            threadFactory, // 线程工厂
+                            handler// 异常捕获器
+                    );
+                }
             }
         }
-        return executor;
+        return mExecutor;
     }
 
-    /**
-     * 执行任务
-     */
+    /**执行任务*/
     public void execute(Runnable task) {
         initThreadPoolExecutor();
-        executor.execute(task);
+        mExecutor.execute(task);
     }
 
-
-    /**
-     * 提交任务
-     * Future 可以获得异常
-     */
+    /**提交任务*/
     public Future<?> submit(Runnable task) {
         initThreadPoolExecutor();
-        return executor.submit(task);
+        return mExecutor.submit(task);
     }
 
-    /**
-     * 移除任务
-     */
+    /**移除任务*/
     public void removeTask(Runnable task) {
         initThreadPoolExecutor();
-        executor.remove(task);
+        mExecutor.remove(task);
     }
-
-
 }
