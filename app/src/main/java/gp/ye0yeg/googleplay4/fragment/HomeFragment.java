@@ -20,6 +20,7 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
+import gp.ye0yeg.googleplay4.base.BaseApplication;
 import gp.ye0yeg.googleplay4.base.BaseFragment;
 import gp.ye0yeg.googleplay4.base.BaseHolder;
 import gp.ye0yeg.googleplay4.base.LoadingPager;
@@ -37,22 +38,43 @@ import gp.ye0yeg.googleplay4.utils.UIUtils;
  */
 public class HomeFragment extends BaseFragment {
     private TextView tv;
-    private List<AppInfoBean> datas;  //ListView的数据源
-    private List<String> picture; //轮播图
+    public List<AppInfoBean> datas;  //ListView的数据源
+    public List<String> picture; //轮播图
     private int state = 0;
     private HomeAdapter mAdapter;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        xutils2Data();
+        SystemClock.sleep(100);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public lodedResult initData() {
-//        state =0;
+
         datas = new ArrayList<AppInfoBean>();
-//        SystemClock.sleep(100);
-        //"http://192.168.1.100:8080/GooglePlayServer/";
+        picture = new ArrayList<String>();
+
+        xutils2Data();
+
+//        return LoadingPager.lodedResult.SUCCESS;
+        if (state == 0) {
+            return LoadingPager.lodedResult.SUCCESS;
+        } else if (state == 1) {
+            return LoadingPager.lodedResult.EMPTY;
+        } else {
+            return LoadingPager.lodedResult.EMPTY;
+        }
+    }
+
+    private void xutils2Data() {
         RequestParams params = new RequestParams(Constants.URLS.BASEURL + "home");
 //        params.setSslSocketFactory(...); // 设置ssl
         params.addQueryStringParameter("index", "0");
@@ -62,10 +84,9 @@ public class HomeFragment extends BaseFragment {
                 Gson gson = new Gson();
                 HomeBean homeBean = gson.fromJson(result, HomeBean.class);
                 datas = homeBean.list;
+                picture = homeBean.picture;
                 LogUtils.s("数据初始化以后的dataSize：" + datas.size()
                 );
-                picture = homeBean.picture;
-
                 Toast.makeText(x.app(), "成功的提示", Toast.LENGTH_LONG).show();
                 LogUtils.s(datas.get(1).name);//可以获得数据
                 mAdapter.notifyDataSetChanged();
@@ -89,34 +110,45 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onFinished() {
-
+//                //暂时在这里获得数据
+//                if (state == 0) {
+//                    getNewinitView();
+//                }
             }
         });
-        return LoadingPager.lodedResult.SUCCESS;
-
-//        if (state == 0) {
-//            return LoadingPager.lodedResult.SUCCESS;
-//        } else if (state == 1) {
-//            return LoadingPager.lodedResult.EMPTY;
-//        } else {
-//            return LoadingPager.lodedResult.EMPTY;
-//        }
     }
 
-
+    //这个方法在主线程中运行。
     @Override
     public View initSuccessView() {
-        SystemClock.sleep(1000);
+        if(picture.size()==0){
+            TextView tv = new TextView(UIUtils.getContext());
+            tv.setText("NO DATA");
+            return tv;
+        }
+        List<String> thedata = new ArrayList<String>();
+//        for(int a = 0;a<100;a++){
+//            thedata.add("data"+a);
+//        }
         mAdapter = new HomeAdapter(datas);
-        ListView listView = new ListView(UIUtils.getContext());
+        ListView listView = new ListView(BaseApplication.getContext());
         listView.setCacheColorHint(Color.YELLOW);
         listView.setFastScrollEnabled(true);
-        //目前遇到的问题是，数据从这里取出以后，无法传入adapter中，导致无数据
         LogUtils.s("主界面的data：" + datas.size());
         listView.setAdapter(mAdapter);
+//        mAdapter.notifyDataSetChanged();
         return listView;
     }
 
+    public View getNewinitView(){
+
+        mAdapter = new HomeAdapter(datas);
+        ListView listView = new ListView(BaseApplication.getContext());
+        listView.setCacheColorHint(Color.YELLOW);
+        listView.setFastScrollEnabled(true);
+        listView.setAdapter(mAdapter);
+        return listView;
+    }
 
     class HomeAdapter extends SuperAdapter<AppInfoBean> {
 
@@ -127,8 +159,8 @@ public class HomeFragment extends BaseFragment {
 
         @Override
         public BaseHolder<AppInfoBean> getSpecialHolder() {
+//            return new TestHolder();
             return new HomeHolder();
         }
     }
-
 }

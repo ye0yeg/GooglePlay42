@@ -3,7 +3,6 @@ package gp.ye0yeg.googleplay4.utils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
-import android.os.Process;
 
 import gp.ye0yeg.googleplay4.base.BaseApplication;
 
@@ -12,54 +11,56 @@ import gp.ye0yeg.googleplay4.base.BaseApplication;
  */
 
 public class UIUtils {
-
-    public static Context getContext(){
+    /**得到上下文*/
+    public static Context getContext() {
         return BaseApplication.getContext();
     }
 
-    //获得Resource对象
-    public static Resources getResources(){
+    /**得到Resouce对象*/
+    public static Resources getResource() {
         return getContext().getResources();
     }
 
-    //获得String.xml的字符串
-    public static String getString(int resId){
-        return getResources().getString(resId);
+    /**得到String.xml中的字符串*/
+    public static String getString(int resId) {
+        return getResource().getString(resId);
     }
 
-    //得到String.xml中的字符串数组
-    public static String[] getStringArray(int resId){
-        return getResources().getStringArray(resId);
-    }
-    //得到color.xml的颜色
-    public static int getColor(int colorId){
-        return getResources().getColor(colorId);
+    /**得到String.xml中的字符串数组*/
+    public static String[] getStringArr(int resId) {
+        return getResource().getStringArray(resId);
     }
 
-    //得到应用程序包名
+    /**得到colors.xml中的颜色*/
+    public static int getColor(int colorId) {
+        return getResource().getColor(colorId);
+    }
+
+    /**得到应用程序的包名*/
     public static String getPackageName() {
         return getContext().getPackageName();
     }
 
-    //得到主线程的ID
-    public static long getMainThread(){
+    /**得到主线程id*/
+    public static long getMainThreadid() {
         return BaseApplication.getMainThredId();
     }
 
-    //得到主线程的Hanlder
-    public static Handler getMainThreadHandler(){
+    /**得到主线程Handler*/
+    public static Handler getMainThreadHandler() {
         return BaseApplication.getHandler();
     }
 
-    //安全执行任务的方法
-    public static void postTaskSafely(Runnable task){
-        int curThreadId = Process.myTid();
-        //如果当前线程是主线程
-        if(curThreadId == getMainThread()){
+    /**安全的执行一个任务*/
+    public static void postTaskSafely(Runnable task) {
+        int curThreadId = android.os.Process.myTid();
+
+        if (curThreadId == getMainThreadid()) {// 如果当前线程是主线程
             task.run();
-        }else
-        {//如果当前线程不是主线程，那么将当前线程发到主线程
+        } else {// 如果当前线程不是主线程
             getMainThreadHandler().post(task);
         }
+
     }
+
 }

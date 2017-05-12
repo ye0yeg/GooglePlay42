@@ -16,7 +16,7 @@ import gp.ye0yeg.googleplay4.utils.UIUtils;
 
 public abstract class BaseFragment extends Fragment {
 
-    private LoadingPager loadingPager;
+    public LoadingPager loadingPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,4 +48,5 @@ public abstract class BaseFragment extends Fragment {
     * @call 正在加载数据完成之后，并数据加载成功，必须告知成功视图
     * */
     public abstract View initSuccessView();
+
 }

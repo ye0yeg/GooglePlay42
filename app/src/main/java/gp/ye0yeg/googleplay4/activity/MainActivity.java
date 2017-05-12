@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private void initData() {
 //        MainFragmentPagerAdapter adapter = new MainFragmentPagerAdapter(getSupportFragmentManager());
         MainFragmentStatePagerAdapter adapter = new MainFragmentStatePagerAdapter(getSupportFragmentManager());
-        mainTitle = UIUtils.getStringArray(R.array.main_titles);
+        mainTitle = UIUtils.getStringArr(R.array.main_titles);
 //        viewPager.setAdapter(new HomeAdapter());
         viewPager.setAdapter(adapter);
         //viewPager 和 tabs的绑定

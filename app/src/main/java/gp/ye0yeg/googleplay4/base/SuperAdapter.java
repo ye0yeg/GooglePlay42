@@ -14,23 +14,22 @@ import gp.ye0yeg.googleplay4.utils.LogUtils;
  */
 
 public abstract class SuperAdapter<ITEMBEANTYPE> extends BaseAdapter{
-    public List<ITEMBEANTYPE> dataSource = new ArrayList<ITEMBEANTYPE>();
+    private List<ITEMBEANTYPE> dataSource = new ArrayList<ITEMBEANTYPE>();
 
     public SuperAdapter(List<ITEMBEANTYPE> dataSource) {
         this.dataSource = dataSource;
     }
 
     @Override
-
     public int getCount() {
-        LogUtils.s("dataSizie:"+dataSource.size());
+        LogUtils.s("最重要的数据个数:"+this.dataSource.size());
         return dataSource.size();
     }
 
     @Override
     public Object getItem(int position) {
-        if (dataSource != null) {
-            return dataSource.get(position);
+        if (this.dataSource != null) {
+            return this.dataSource.get(position);
         }
         return null;
     }
@@ -42,6 +41,7 @@ public abstract class SuperAdapter<ITEMBEANTYPE> extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        LogUtils.s("触发设置数据");
         BaseHolder<ITEMBEANTYPE> holder = null;
         if (convertView == null) {
             holder = getSpecialHolder();
@@ -50,6 +50,7 @@ public abstract class SuperAdapter<ITEMBEANTYPE> extends BaseAdapter{
         }
         //设置数据
         holder.setDataAndRefreshHolderView(dataSource.get(position));
+        LogUtils.s("设置数据和dataSource的长度"+dataSource.size());
         //刷新数据
         return holder.holderView;
     }

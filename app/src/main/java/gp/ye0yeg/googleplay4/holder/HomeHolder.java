@@ -12,6 +12,7 @@ import gp.ye0yeg.googleplay4.R;
 import gp.ye0yeg.googleplay4.base.BaseHolder;
 import gp.ye0yeg.googleplay4.bean.AppInfoBean;
 import gp.ye0yeg.googleplay4.conf.Constants;
+import gp.ye0yeg.googleplay4.utils.LogUtils;
 import gp.ye0yeg.googleplay4.utils.UIUtils;
 
 /**
@@ -35,13 +36,12 @@ public class HomeHolder extends BaseHolder<AppInfoBean> {
     public View initHolderView() {
         View view = View.inflate(UIUtils.getContext(), R.layout.item_app_info, null);
         //注入
-
         x.view().inject(this, view);
         return view;
     }
-
     @Override
     public void refreshHolderView(AppInfoBean data) {
+        LogUtils.s("刷新数据的时候的data："+data.size);
         tv_size.setText(data.size + "");
         tv_des.setText(data.des);
         tv_title.setText(data.name);

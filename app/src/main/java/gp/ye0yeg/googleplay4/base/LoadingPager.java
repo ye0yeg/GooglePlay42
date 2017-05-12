@@ -92,13 +92,13 @@ public abstract class LoadingPager extends FrameLayout {
         public void run() {
             //真正加载数据
             lodedResult tempState = initData();
-            //加载完成以后获得结果
-            curState = tempState.getState();
-            //刷新UI,因为刷新UI没有在主线程中，所以放到安全线程访问方法中，到主线程运行
-            UIUtils.postTaskSafely(new Runnable() {
-                @Override
-                public void run() {
-                    refreshUI();
+                    //加载完成以后获得结果
+                    curState = tempState.getState();
+                    //刷新UI,因为刷新UI没有在主线程中，所以放到安全线程访问方法中，到主线程运行
+                    UIUtils.postTaskSafely(new Runnable() {
+                        @Override
+                        public void run() {
+                            refreshUI();
                     //异步加载数据
                 }
             });
