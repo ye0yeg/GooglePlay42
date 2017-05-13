@@ -35,6 +35,7 @@ import gp.ye0yeg.googleplay4.utils.UIUtils;
 
 /**
  * Created by Administrator on 4/27/2017.
+ * 初步断定问题xutils线程不能和该线程同步导致在获取数据的时候主线程还在运行结果获得空数据
  */
 public class HomeFragment extends BaseFragment {
     private TextView tv;
@@ -47,10 +48,12 @@ public class HomeFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         xutils2Data();
         SystemClock.sleep(100);
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -58,20 +61,18 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public lodedResult initData() {
-
         datas = new ArrayList<AppInfoBean>();
         picture = new ArrayList<String>();
 
-        xutils2Data();
 
-//        return LoadingPager.lodedResult.SUCCESS;
-        if (state == 0) {
-            return LoadingPager.lodedResult.SUCCESS;
-        } else if (state == 1) {
-            return LoadingPager.lodedResult.EMPTY;
-        } else {
-            return LoadingPager.lodedResult.EMPTY;
-        }
+        return LoadingPager.lodedResult.SUCCESS;
+//        if (state == 0) {
+//            return LoadingPager.lodedResult.SUCCESS;
+//        } else if (state == 1) {
+//            return LoadingPager.lodedResult.EMPTY;
+//        } else {
+//            return LoadingPager.lodedResult.EMPTY;
+//        }
     }
 
     private void xutils2Data() {
@@ -121,15 +122,11 @@ public class HomeFragment extends BaseFragment {
     //这个方法在主线程中运行。
     @Override
     public View initSuccessView() {
-        if(picture.size()==0){
+        if (picture.size() == 0) {
             TextView tv = new TextView(UIUtils.getContext());
             tv.setText("NO DATA");
             return tv;
         }
-        List<String> thedata = new ArrayList<String>();
-//        for(int a = 0;a<100;a++){
-//            thedata.add("data"+a);
-//        }
         mAdapter = new HomeAdapter(datas);
         ListView listView = new ListView(BaseApplication.getContext());
         listView.setCacheColorHint(Color.YELLOW);
@@ -137,16 +134,6 @@ public class HomeFragment extends BaseFragment {
         LogUtils.s("主界面的data：" + datas.size());
         listView.setAdapter(mAdapter);
 //        mAdapter.notifyDataSetChanged();
-        return listView;
-    }
-
-    public View getNewinitView(){
-
-        mAdapter = new HomeAdapter(datas);
-        ListView listView = new ListView(BaseApplication.getContext());
-        listView.setCacheColorHint(Color.YELLOW);
-        listView.setFastScrollEnabled(true);
-        listView.setAdapter(mAdapter);
         return listView;
     }
 

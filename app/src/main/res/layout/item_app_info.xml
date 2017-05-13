@@ -24,6 +24,7 @@
                 android:layout_height="48dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
+                android:background="#00000000"
                 android:src="@mipmap/ic_default" />
 
             <!-- 文字部分 -->
@@ -50,6 +51,7 @@
                 <!-- 评分 -->
 
                 <RatingBar
+                    android:progressDrawable="@drawable/layerlist_ratingbar"
                     android:id="@+id/item_appinfo_rb_stars"
                     android:layout_width="wrap_content"
                     android:layout_height="18dp"

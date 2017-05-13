@@ -12,7 +12,7 @@ import gp.ye0yeg.googleplay4.R;
 import gp.ye0yeg.googleplay4.base.BaseHolder;
 import gp.ye0yeg.googleplay4.bean.AppInfoBean;
 import gp.ye0yeg.googleplay4.conf.Constants;
-import gp.ye0yeg.googleplay4.utils.LogUtils;
+import gp.ye0yeg.googleplay4.utils.StringUtils;
 import gp.ye0yeg.googleplay4.utils.UIUtils;
 
 /**
@@ -41,13 +41,12 @@ public class HomeHolder extends BaseHolder<AppInfoBean> {
     }
     @Override
     public void refreshHolderView(AppInfoBean data) {
-        LogUtils.s("刷新数据的时候的data："+data.size);
-        tv_size.setText(data.size + "");
+        tv_size.setText(StringUtils.formatFileSize(data.size));
         tv_des.setText(data.des);
         tv_title.setText(data.name);
         iv_icon.setImageResource(R.drawable.ic_default); //默认图片
         String uri = Constants.URLS.IMAGEBASEURL + data.iconUrl;
         x.image().bind(iv_icon, uri);
-        rb_stars.setRating(data.stars);
+        rb_stars.setRating(data.stars); //data format is INTEGER
     }
 }
